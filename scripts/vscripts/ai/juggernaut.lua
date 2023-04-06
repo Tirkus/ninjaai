@@ -8,41 +8,9 @@
 
 
 --]]
---[[
 
-    obs_space [
-        self [
-            coord [x, y, z]
-            direction FLOAT
-            invulnerable BOOL
-            state INT (0-stand, 1-run, 2-hit, 3-wave, 4-dagger)
-            recharge [FLOAT, FLOAT, FLOAT, FLOAT] (spells)
-        ]
-
-        enemies [
-            enemy {
-                coord [FLOAT, FLOAT, FLOAT]
-                direction FLOAT
-                invulnerable BOOL
-                state INT (0-stand, 1-run, 2-hit, 3-wave, 4-dagger)
-                recharge [FLOAT, FLOAT, FLOAT, FLOAT] (spells)
-           }
-        ]
-
-        spells [
-            type BOOL (0-wave)
-            coord [FLOAT, FLOAT, FLOAT]
-        ]
-    ]
-
-    action_space [
-
-    ]
-
---]]
-require("ai/observationspace")
 wave_range = 1200
-
+require("observation_space")
 
 function Spawn( entityKeyValues )
     if thisEntity:GetMainControllingPlayer() == 1 then
@@ -89,7 +57,7 @@ function JuggernautThink()
 
 
 
-  
+
     if Dagger ~= nil and Dagger:IsFullyCastable() and not thisEntity:IsChanneling() then
        if #enemies > 0 then
           CastDaggerCancel(enemies[1])
@@ -99,7 +67,7 @@ function JuggernautThink()
 --    if Deflect ~= nil then
 --       CastDeflect()
 --   end
-   
+
    --if Wave ~= nil and Wave:IsFullyCastable() and not thisEntity:IsChanneling() then
    --   -- if #enemies > 0 then
    --   --    CastWave(enemies[1]:GetOrigin())
@@ -110,7 +78,7 @@ function JuggernautThink()
    --end
 
 --    if Blink ~= nil and Blink:IsFullyCastable() and not thisEntity:IsChanneling() then
---       if #enemies > 0 then  
+--       if #enemies > 0 then
 --          CastBlink(enemies[1]:GetOrigin())
 --       end
 --   end
@@ -125,7 +93,7 @@ function JuggernautThink()
  --         MoveDirection(next_coordinates(thisEntity:GetOrigin()[1], thisEntity:GetOrigin()[2], 0, 200))
  --      end
  --   end
-   
+
 
 --   if thisEntity:GetAttackTarget() == nil and not Wave:IsFullyCastable() and not thisEntity:IsChanneling() then
 --      local enemies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), thisEntity, 1000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
@@ -165,33 +133,9 @@ function update_observation_space()
     end
     waves, daggers = getSpells()
     print("waves")
-    print(table.concat(waves))/
+    print(table.concat(waves))
     print("daggers")
     print(table.concat(daggers))
-end
-
-function getReward(state, action)
-    local reward = 0
-
-    if not state.bot_alive then
-        return -1
-    end
-
-    if state.enemy_health <= 0 then
-        return 1
-    end
-
-    local distance = (state.bot_position - state.enemy_position):Length2D()
-
-    if distance > 800 then
-        reward = reward - 0.1
-    end
-
-    if action.name == "CastWave" or action.name == "CastDeflect" or action.name == "CastBlink" or action.name == "CastDagger" then
-        reward = reward + 0.05
-    end
-
-    return reward
 end
 
 function CastWave(cord)

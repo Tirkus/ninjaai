@@ -11,7 +11,44 @@ function ObservationSpace:new()
         state = 0,
         recharge = {0.0, 0.0, 0.0, 0.0}
     }
-    self.enemy_states = {}
+    self.enemies = {
+        enemy1 = {
+            coord = {0.0, 0.0, 0.0},
+            direction = 0.0,
+            invulnerable = false,
+            state = 0,
+            recharge = {0.0, 0.0, 0.0, 0.0},
+            enemy_id = {0}},
+        enemy2 = {
+            coord = {0.0, 0.0, 0.0},
+            direction = 0.0,
+            invulnerable = false,
+            state = 0,
+            recharge = {0.0, 0.0, 0.0, 0.0},
+            enemy_id = {0}},
+        enemy3 = {
+            coord = {0.0, 0.0, 0.0},
+            direction = 0.0,
+            invulnerable = false,
+            state = 0,
+            recharge = {0.0, 0.0, 0.0, 0.0},
+            enemy_id = {0}},
+        enemy4 = {
+            coord = {0.0, 0.0, 0.0},
+            direction = 0.0,
+            invulnerable = false,
+            state = 0,
+            recharge = {0.0, 0.0, 0.0, 0.0},
+            enemy_id = {0}},
+        enemy5 = {
+            coord = {0.0, 0.0, 0.0},
+            direction = 0.0,
+            invulnerable = false,
+            state = 0,
+            recharge = {0.0, 0.0, 0.0, 0.0},
+            enemy_id = {0}
+        },
+    }
     self.spells = {}
     return self
 end
